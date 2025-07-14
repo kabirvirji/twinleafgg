@@ -5,8 +5,11 @@
 <mat-dialog-content>
   <div style="margin-bottom: 10px;">
     <label>
-      <input type="checkbox" [(ngModel)]="sortDiscards" (change)="onSortDiscardsChange()" />
-      Sort Discard
+      <input
+        type="checkbox"
+        [(ngModel)]="sortDiscards"
+        (change)="onSortDiscardsToggle()" />
+      Sort discard pile
     </label>
   </div>
 

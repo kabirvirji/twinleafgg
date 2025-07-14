@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { ShowCardsPrompt, Card, GamePhase, SuperType } from 'ptcg-server';
+import { ShowCardsPrompt, Card, GamePhase } from 'ptcg-server';
 
 import { CardsBaseService } from '../../../shared/cards/cards-base.service';
 import { GameService } from '../../../api/services/game.service';
@@ -18,7 +18,6 @@ export class PromptShowCardsComponent implements OnInit, OnDestroy {
   @Input() gameState: LocalGameState;
 
   public isLoading = true;
-  public sortDiscards: boolean = false;
 
   private isResolved = false;
   private timeoutId: any;
@@ -37,9 +36,6 @@ export class PromptShowCardsComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       this.resolvePrompt();
     });
-    if (this.sortDiscards) {
-      this.prompt.cards = this.sortDiscardCards(this.prompt.cards);
-    }
   }
 
   ngOnDestroy() {
@@ -75,15 +71,4 @@ export class PromptShowCardsComponent implements OnInit, OnDestroy {
     this.cardsBaseService.showCardInfo({ card });
   }
 
-  private sortDiscardCards(cards: Card[]): Card[] {
-    const pokemonCards = cards.filter(c => c.superType === SuperType.POKEMON);
-    const trainerCards = cards.filter(c => c.superType === SuperType.TRAINER);
-    const energyCards = cards.filter(c => c.superType === SuperType.ENERGY);
-
-    return [
-      ...pokemonCards,
-      ...trainerCards,
-      ...energyCards
-    ];
-  }
 }
